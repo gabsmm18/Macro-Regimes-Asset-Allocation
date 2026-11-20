@@ -2,7 +2,7 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/gabsmm18/macro-regimes-asset-allocation/blob/main/macro_regimes_asset_allocation.ipynb)
 
-**Author:** Mattia Mariani.
+**Author:** Mattia Mariani
 
 ## Research question
 
