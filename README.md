@@ -1,8 +1,9 @@
 # Macroeconomic Regimes and Tactical Asset Allocation
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YOUR-USERNAME/macro-regimes-asset-allocation/blob/main/macro_regimes_asset_allocation.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/gabsmm18/macro-regimes-asset-allocation/blob/main/macro_regimes_asset_allocation.ipynb)
 
-**Author:** Mattia Mariani, MSc Applied Economics and Finance, Copenhagen Business School
+**Author:** Mattia Mariani, MSc Applied Economics and Finance, Copenhagen Business School  
+**Data:** April 2007 to October 2026 (235 months)
 
 ## Research question
 
@@ -44,6 +45,8 @@ All data are free and downloaded automatically by the notebook. No API key is re
 
 ## Results
 
+![Regime timeline](figures/02_regime_timeline.png)
+
 > **Summary:** the macro regime helps less to earn more than to lose less. A simple strategy based on growth and inflation halved the maximum drawdown of a 60/40 portfolio at the same return, while machine learning added no value over a naive benchmark.
 
 ### 1. Asset returns by regime
@@ -54,12 +57,13 @@ Annualised return in the month after the regime signal (* = |t| > 2):
 
 | Regime | Equities | Treasuries | Gold | Commodities |
 |---|---|---|---|---|
-| Goldilocks | +22%* | +1% | +16%* | +15% |
-| Reflation | +14%* | +5% | +11% | +7% |
-| Stagflation | −14% | +7% | +8% | −12% |
-| Deflation | +19%* | +1% | +9% | 0% |
+| Goldilocks | +21%* | +2% | +21%* | +17%* |
+| Reflation | +12%* | +5% | +10% | +9% |
+| Stagflation | −12% | +6% | +5% | −12% |
+| Deflation | +20%* | +1% | +7% | +3% |
 
 - **Stagflation is the clearest result.** It is the only regime in which equities and commodities lose money, while Treasuries and gold hold up, as the theory predicts. Equity volatility almost doubles (21% vs 11-15% in the other regimes).
+- **Goldilocks is good for almost everything**: equities, gold and commodities all deliver significant returns.
 - **Growth regimes favour equities**, with statistically significant returns in Goldilocks and Reflation.
 - **Deflation is the surprise.** Theory points to Treasuries, but equities performed best. A plausible explanation is the post-2008 policy reaction: in slowdowns the Fed cut rates and ran QE, and the liquidity supported equities above all.
 
@@ -69,14 +73,16 @@ Annualised return in the month after the regime signal (* = |t| > 2):
 
 | Strategy | Annual return | Volatility | Sharpe | Max drawdown |
 |---|---|---|---|---|
-| **Macro regimes** | 8.5% | 8.8% | **0.98** | **−12.4%** |
-| 60/40 | 8.1% | 9.5% | 0.86 | −29.5% |
-| Equal weight | 5.9% | 6.6% | 0.89 | −18.0% |
-| Equities only | 10.6% | 15.6% | 0.73 | −50.8% |
+| **Macro regimes** | 7.9% | 8.9% | 0.90 | **−12.4%** |
+| 60/40 | 8.0% | 9.5% | 0.86 | −29.5% |
+| Equal weight | 6.2% | 6.7% | 0.93 | −18.0% |
+| Equities only | 10.7% | 15.4% | 0.74 | −50.8% |
 
 *Net of 10 bp transaction costs. Sharpe ratio computed without the risk-free rate.*
 
-The regime strategy earns about the same as a 60/40 with **less than half its maximum drawdown**. Its value lies in avoiding crashes, mainly by reducing equity exposure when Stagflation arrives, rather than in higher returns. The result is robust to transaction costs: up to 30 bp, the Sharpe ratio remains above the 60/40's.
+The regime strategy earns about the same as a 60/40 (7.9% vs 8.0% a year) with **less than half its maximum drawdown** (−12% vs −29%). Its value lies in avoiding crashes, mainly by reducing equity exposure when Stagflation arrives, rather than in higher returns.
+
+The Sharpe ratio advantage is small (0.90 vs 0.86), lower than a simple equal-weight portfolio (0.93), and disappears with transaction costs above about 20 bp (Sharpe 0.81 at 30 bp). **The robust result is the lower drawdown, not a better risk-adjusted return.**
 
 ### 3. Machine learning (out-of-sample)
 
@@ -84,25 +90,25 @@ The regime strategy earns about the same as a 60/40 with **less than half its ma
 
 | Model | Out-of-sample accuracy |
 |---|---|
-| Naive (most frequent class) | 66.2% |
-| Logistic regression | 63.6% |
-| Random forest | 65.6% |
+| Naive (most frequent class) | 65.6% |
+| Logistic regression | 62.6% |
+| Random forest | 64.4% |
 
-| Strategy (2013-2025) | Annual return | Volatility | Sharpe | Max drawdown |
+| Strategy (Apr 2013 - Sep 2026) | Annual return | Volatility | Sharpe | Max drawdown |
 |---|---|---|---|---|
-| ML: Logistic | 9.1% | 9.9% | 0.94 | −17.3% |
+| ML: Logistic | 9.0% | 9.9% | 0.93 | −17.3% |
 | ML: Random forest | 10.4% | 11.1% | 0.95 | −26.4% |
-| Macro regimes | 8.2% | 8.1% | **1.02** | **−10.9%** |
-| 60/40 | 9.2% | 9.3% | 1.00 | −20.5% |
+| Macro regimes | 7.6% | 8.4% | 0.91 | **−10.9%** |
+| 60/40 | 9.1% | 9.2% | **0.99** | −20.5% |
 
-Equities beat Treasuries in 64% of months, so a naive model that always predicts "equities" is right 66% of the time. **Neither ML model beats this benchmark.** The random forest earns slightly more in the backtest, but with larger drawdowns and a lower Sharpe ratio than both the 60/40 and the macro rules. With few monthly observations and a low signal-to-noise ratio, the models fit relationships that do not persist out of sample, while simple theory-driven rules proved more robust.
+Equities beat Treasuries in 63% of months, so a naive model that always predicts "equities" is right 66% of the time. **Neither ML model beats this benchmark.** The random forest earns the most in the backtest, but with the largest drawdown, and neither model beats the Sharpe ratio of a passive 60/40. Over this period, dominated by a long equity bull market, the 60/40 has the best risk-adjusted return, while the macro rules again have the smallest drawdown. With few monthly observations and a low signal-to-noise ratio, the models fit relationships that do not persist out of sample, while simple theory-driven rules proved more robust.
 
 ## Limitations
 
 - **Data revisions:** FRED provides revised data, not the real-time vintages markets observed. A natural extension is to use ALFRED vintages.
 - **Missing data:** October 2025 CPI was never published because of the US government shutdown. The missing month is linearly interpolated.
 - **Hindsight in the rules:** portfolio weights were set from economic theory, but the theory itself is partly shaped by past episodes in the sample (e.g. 2008, 2022).
-- **Short sample:** about 17 years split across four regimes leaves limited observations per regime.
+- **Short sample:** about 19 years split across four regimes leaves limited observations per regime.
 - **Researcher choices:** the regime threshold, portfolio weights and model parameters are discretionary, which creates a risk of data snooping.
 - **Simplified costs:** drift rebalancing, variable bid-ask spreads and taxes are ignored.
 - **US only:** results may not generalise to other markets.
@@ -113,3 +119,11 @@ Equities beat Treasuries in 64% of months, so a naive model that always predicts
 - **Monetary-policy regimes** (hiking vs cutting cycles)
 - Euro-area replication with ECB / Eurostat data
 - Statistical regime detection with a **Hidden Markov Model**
+
+## Repository structure
+
+```
+├── macro_regimes_asset_allocation.ipynb   # full analysis
+├── figures/                               # charts generated by the notebook
+└── README.md
+```
